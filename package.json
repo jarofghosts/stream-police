@@ -18,5 +18,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jarofghosts/stream-police/issues"
+  },
+  "dependencies": {
+    "through": "~2.3.4"
   }
 }

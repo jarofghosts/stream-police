@@ -1,3 +1,4 @@
-var assert = require('assert');
+var assert = require('assert'),
+    police = require('../index.js');
 
 assert.ok(true);

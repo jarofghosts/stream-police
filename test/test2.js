@@ -1,3 +1,4 @@
+
 var assert = require('assert'),
     police = require('../index.js'),
     stream = require('stream'),
@@ -13,9 +14,8 @@ w._write = function (data, enc, next) {
 r._read = function () {
   r.push('good');
   r.push('bad');
-  r.push('bad');
   r.push('good');
   r.push(null);
 }
 bad = setTimeout(function () { assert.ok(false); }, 500);
-r.pipe(police({ exclude: [/bad/] })).pipe(w);
+r.pipe(police({ verify: [/good/] })).pipe(w);

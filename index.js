@@ -21,16 +21,17 @@ function police(options) {
     if (exclude) {
       var i = 0;
       for (; i < excludeLength; ++i) {
-        if (str.match(options.exclude[i]) return;
+        if (str.match(options.exclude[i])) return;
       }
     }
     if (verify) {
       var i = 0;
       for (; i < verifyLength; ++i) {
-        if (!str.match(verify[i])) return;
+        if (!str.match(options.verify[i])) return;
       }
     }
     this.queue(buf);
   }
+  return tr;
 }
 

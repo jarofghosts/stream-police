@@ -27,8 +27,12 @@ function police(options) {
     if (verify) {
       var i = 0;
       for (; i < verifyLength; ++i) {
-        if (!str.match(options.verify[i])) return;
+        if (str.match(options.verify[i])) {
+          this.queue(buf);
+          return;
+        }
       }
+      return;
     }
     this.queue(buf);
   }

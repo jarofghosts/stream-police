@@ -21,13 +21,13 @@ function police(options) {
     if (exclude) {
       var i = 0;
       for (; i < excludeLength; ++i) {
-        if (str.match(options.exclude[i])) return;
+        if (options.exclude[i].test(str)) return;
       }
     }
     if (verify) {
       var i = 0;
       for (; i < verifyLength; ++i) {
-        if (str.match(options.verify[i])) {
+        if (options.verify[i].test(str)) {
           this.queue(buf);
           return;
         }

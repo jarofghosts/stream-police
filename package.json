@@ -1,6 +1,6 @@
 {
   "name": "stream-police",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "block stream data on criteria",
   "main": "index.js",
   "scripts": {

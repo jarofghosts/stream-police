@@ -3,33 +3,37 @@ var through = require('through')
 module.exports = police
 
 function police(options) {
-  options = options || {}
   var exclude = false,
-      verify = false
+      verify = false,
+      excludeLength,
+      verifyLength,
+      tr = through(write)
+
+  options = options || {}
 
   if (options.exclude) {
     exclude = true
-    var excludeLength = options.exclude.length
+    excludeLength = options.exclude.length
   }
   if (options.verify) {
     verify = true
-    var verifyLength = options.verify.length
+    verifyLength = options.verify.length
   }
-  var tr = through(write)
+
   return tr
 
   function write(buf) {
-    var str = buf.toString();
+    var str = buf.toString(),
+        i
+
     if (exclude) {
-      var i = 0
-      for (; i < excludeLength; ++i) {
+      for (i = 0; i < excludeLength; ++i) {
         if (options.exclude[i].test(str)) return
       }
     }
     if (verify) {
-      var i = 0
-      for (; i < verifyLength; ++i) {
-        if (options.verify[i].test(str))  return this.queue(buf)
+      for (i = 0; i < verifyLength; ++i) {
+        if (options.verify[i].test(str)) return this.queue(buf)
       }
       return
     }

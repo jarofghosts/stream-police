@@ -2,22 +2,22 @@ var through = require('through')
 
 module.exports = police
 
-function police(options) {
-  var exclude = false,
-      verify = false,
-      excludeLength,
-      verifyLength,
-      tr = through(write)
+function police(_options) {
+  var options = _options || {}
+    , tr = through(write)
+    , exclude = false
+    , verify = false
+    , exclude_length
+    , verify_length
 
-  options = options || {}
 
   if (options.exclude) {
     exclude = true
-    excludeLength = options.exclude.length
+    exclude_length = options.exclude.length
   }
   if (options.verify) {
     verify = true
-    verifyLength = options.verify.length
+    verify_length = options.verify.length
   }
 
   return tr
@@ -27,17 +27,19 @@ function police(options) {
         i
 
     if (exclude) {
-      for (i = 0; i < excludeLength; ++i) {
+      for (i = 0; i < exclude_length; ++i) {
         if (options.exclude[i].test(str)) return
       }
     }
+
     if (verify) {
-      for (i = 0; i < verifyLength; ++i) {
-        if (options.verify[i].test(str)) return this.queue(buf)
+      for (i = 0; i < verify_length; ++i) {
+        if (options.verify[i].test(str)) return tr.queue(buf)
       }
       return
     }
-    this.queue(buf)
+
+    tr.queue(buf)
   }
 }
 

@@ -11,11 +11,12 @@ function police(_options) {
     , verify_length
 
 
-  if (options.exclude) {
+  if(options.exclude) {
     exclude = true
     exclude_length = options.exclude.length
   }
-  if (options.verify) {
+
+  if(options.verify) {
     verify = true
     verify_length = options.verify.length
   }
@@ -23,18 +24,18 @@ function police(_options) {
   return tr
 
   function write(buf) {
-    var str = buf.toString(),
-        i
+    var str = '' + buf
+      , i
 
-    if (exclude) {
-      for (i = 0; i < exclude_length; ++i) {
-        if (options.exclude[i].test(str)) return
+    if(exclude) {
+      for(i = 0; i < exclude_length; ++i) {
+        if(options.exclude[i].test(str)) return
       }
     }
 
-    if (verify) {
-      for (i = 0; i < verify_length; ++i) {
-        if (options.verify[i].test(str)) return tr.queue(buf)
+    if(verify) {
+      for(i = 0; i < verify_length; ++i) {
+        if(options.verify[i].test(str)) return tr.queue(buf)
       }
       return
     }

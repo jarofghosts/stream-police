@@ -43,4 +43,3 @@ function police(_options) {
     tr.queue(buf)
   }
 }
-

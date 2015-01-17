@@ -1,33 +1,46 @@
 stream-police
-====
+=============
 
-[![Build Status](https://travis-ci.org/jarofghosts/stream-police.png?branch=master)](https://travis-ci.org/jarofghosts/stream-police)
+[![Build Status](http://img.shields.io/travis/jarofghosts/stream-police/master.svg?style=flat)](https://travis-ci.org/jarofghosts/stream-police)
+[![npm install](http://img.shields.io/npm/dm/stream-police.svg?style=flat)](https://www.npmjs.org/package/stream-police)
 
-filter some streams and stuff.
+filter your streams.
 
 ## usage
 
-Pass an array of RegExps in either `exclude` to block that chunk or `verify`
-to only allow that. Err... examples:
+`streamPolice(validateFunction[, streamOptions]) -> TransformStream`
+
+* For every chunk of data written to `TransformStream`, it will be passed to
+  `validateFunction` which is expected to return a boolean value indicating
+  whether the value should be emitted or not.
+* `streamOptions` is an optional argument that will be passed to instantiate
+  `TransformStream`
+
+## example
 
 ```js
 var police = require('stream-police')
 
-r.pipe(police({ exclude: [/bad/, /nogood/] })).pipe(process.stdout)
-```
+var stream = police(isNaN)
 
-where `r` is an imaginary readable stream. No chunk including the phrases 'bad'
-or 'nogood' will ever reach stdout.
+stream.write('5') // stream emits nothing
+stream.write('!') // stream emits '!'
+```
 
 or:
 
 ```js
 var police = require('stream-police')
 
-r.pipe(police({ verify: [/good/, /notbad/] })).pipe(process.stdout)
-```
+var stream = police(hasCat, {objectMode: true})
 
-to make sure everything that goes through is 'good' or 'notbad'.
+function hasCat(obj) {
+  return obj.hasOwnProperty('cat')
+}
+
+stream.write({dog: 'woof'}) // stream emits nothing
+stream.write({cat: 'meow'}) // stream emits {cat: 'meow'}
+```
 
 ## license
 

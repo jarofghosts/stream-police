@@ -2,32 +2,34 @@ var test = require('tape')
 
 var police = require('../')
 
-test('filters out exclusions', function(t) {
-  t.plan(2)
+test('only emits that which returns true', function(t) {
+  t.plan(1)
 
-  var stream = police({exclude: [/bad/]})
+  var stream = police(isNaN)
 
   stream.on('data', function(data) {
-    t.strictEqual(data, 'good')
+    t.strictEqual(data.toString(), '!')
   })
 
-  stream.write('good')
-  stream.write('bad')
-  stream.write('bad')
-  stream.write('good')
+  stream.write('5')
+  stream.write('10000')
+  stream.write('!')
 })
 
-test('only allows verifys through', function(t) {
-  t.plan(2)
+test('works with objectMode', function(t) {
+  t.plan(1)
 
-  var stream = police({verify: [/good/]})
+  var stream = police(hasCat, {objectMode: true})
 
   stream.on('data', function(data) {
-    t.strictEqual(data, 'good')
+    t.deepEqual(data, {cat: 'meow'})
   })
 
-  stream.write('good')
-  stream.write('bad')
-  stream.write('bad')
-  stream.write('good')
+  stream.write({dog: 'woof'})
+  stream.write({kangaroo: '...'})
+  stream.write({cat: 'meow'})
+
+  function hasCat(o) {
+    return o.hasOwnProperty('cat')
+  }
 })

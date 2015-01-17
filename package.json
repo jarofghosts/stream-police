@@ -4,7 +4,7 @@
   "description": "block stream data on criteria",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js"
+    "test": "covert test/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,10 +19,8 @@
   "bugs": {
     "url": "https://github.com/jarofghosts/stream-police/issues"
   },
-  "dependencies": {
-    "through": "~2.3.4"
-  },
   "devDependencies": {
+    "covert": "^1.0.1",
     "tape": "^2.13.1"
   }
 }

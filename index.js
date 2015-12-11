@@ -1,17 +1,21 @@
-var transform = require('stream').Transform
+var Duplex = require('readable-stream').Duplex
+var noop = require('nop')
 
 module.exports = police
 
-function police(verify, _opts) {
-  var stream = transform(_opts)
+function police (verify, _opts) {
+  var opts = _opts || {}
 
-  stream._transform = validate
+  opts.write = validate
+  opts.read = noop
+
+  var stream = new Duplex(opts)
 
   return stream
 
-  function validate(chunk, enc, next) {
-    if(verify(chunk)) {
-      this.push(chunk)
+  function validate (chunk, _, next) {
+    if (verify(chunk)) {
+      stream.push(chunk)
     }
 
     next()

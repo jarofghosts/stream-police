@@ -4,7 +4,8 @@
   "description": "block stream data on criteria",
   "main": "index.js",
   "scripts": {
-    "test": "covert test/index.js"
+    "lint": "standard index.js test/index.js",
+    "test": "covert test/index.js && npm run lint"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,11 @@
   },
   "devDependencies": {
     "covert": "^1.0.1",
-    "tape": "^2.13.1"
+    "standard": "^5.4.1",
+    "tape": "^4.2.2"
+  },
+  "dependencies": {
+    "nop": "^1.0.0",
+    "readable-stream": "^2.0.4"
   }
 }

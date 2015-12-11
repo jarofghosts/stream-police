@@ -2,12 +2,12 @@ var test = require('tape')
 
 var police = require('../')
 
-test('only emits that which returns true', function(t) {
+test('only emits that which returns true', function (t) {
   t.plan(1)
 
   var stream = police(isNaN)
 
-  stream.on('data', function(data) {
+  stream.on('data', function (data) {
     t.strictEqual(data.toString(), '!')
   })
 
@@ -16,12 +16,12 @@ test('only emits that which returns true', function(t) {
   stream.write('!')
 })
 
-test('works with objectMode', function(t) {
+test('works with objectMode', function (t) {
   t.plan(1)
 
   var stream = police(hasCat, {objectMode: true})
 
-  stream.on('data', function(data) {
+  stream.on('data', function (data) {
     t.deepEqual(data, {cat: 'meow'})
   })
 
@@ -29,7 +29,7 @@ test('works with objectMode', function(t) {
   stream.write({kangaroo: '...'})
   stream.write({cat: 'meow'})
 
-  function hasCat(o) {
+  function hasCat (o) {
     return o.hasOwnProperty('cat')
   }
 })
